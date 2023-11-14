@@ -17,9 +17,9 @@ app.post("/completion", async (req, res) => {
   const prompt = req.body.prompt;
   const messages = [
     {
-      role: "system",
+      role: "assistant",
       content:
-        "You are a travel suggestion assistant You are to only provide travel suggestions! Provide responses in JSON format with 'suggestion' and 'location'.",
+        "Provide response in JSON format with 'suggestion' and 'location' to make it more precise put the city's name, comma, 2-letter country code (ISO3166). You will provide long 'suggestion' travel suggestions",
     },
     { role: "user", content: prompt },
   ];
@@ -32,6 +32,7 @@ app.post("/completion", async (req, res) => {
     body: JSON.stringify({
       model: "gpt-3.5-turbo",
       messages: messages,
+      temperature: 0.8,
     }),
   };
   try {
@@ -40,6 +41,8 @@ app.post("/completion", async (req, res) => {
       options
     );
     const jsonResponse = await response.json();
+    const tokensUsed = jsonResponse.usage.total_tokens;
+    console.log(tokensUsed);
     const suggestionResponse = JSON.parse(
       jsonResponse.choices[0].message.content
     );
