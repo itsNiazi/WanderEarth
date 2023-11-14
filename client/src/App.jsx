@@ -13,13 +13,9 @@ function App() {
       },
       body: JSON.stringify({ prompt }),
     });
-
     const jsonPromptResponse = await promptResponse.json();
     console.log(jsonPromptResponse);
-    const contentObject = JSON.parse(
-      jsonPromptResponse.choices[0].message.content
-    );
-    setDisplay(contentObject.suggestion);
+    setDisplay(jsonPromptResponse.suggestion);
   };
 
   return (

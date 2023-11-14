@@ -40,7 +40,12 @@ app.post("/completion", async (req, res) => {
       options
     );
     const jsonResponse = await response.json();
-    res.send(jsonResponse);
+    const suggestionResponse = JSON.parse(
+      jsonResponse.choices[0].message.content
+    );
+    console.log(suggestionResponse.location);
+
+    res.send(suggestionResponse);
   } catch (error) {
     console.error(error);
   }
